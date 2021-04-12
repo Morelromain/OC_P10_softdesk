@@ -22,12 +22,19 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows groups to be viewed or edited. 
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class ProjectPermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        return obj.author_user_id == request.user
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
@@ -35,54 +42,15 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [ProjectPermission]
 
-'''
-class ProjectList(APIView):
-    """
-    List all projects, or create a new project.
-    """
-    def get(self, request, format=None):
-        projects = Project.objects.all()
-        serializer = ProjectSerializer(projects, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = ProjectSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class ProjectDetail(APIView):
-    """
-    Retrieve, update or delete a Project instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Project.objects.get(pk=pk)
-        except Project.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        project = self.get_object(pk)
-        serializer = ProjectSerializer(project)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        project = self.get_object(pk)
-        serializer = ProjectSerializer(project, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        project = self.get_object(pk)
-        project.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)'''
-
-
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user 
+        return Project.objects.filter(author_user_id=user)
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
@@ -92,18 +60,30 @@ class ContributorViewSet(viewsets.ModelViewSet):
     serializer_class = ContributorSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class IssuePermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        return obj.project_id.author_user_id == request.user
+
 class IssueViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Contributor.objects.all()
-    serializer_class = ContributorSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IssuePermission]
+
+    def get_queryset(self, *args, **kwargs):
+        project = self.kwargs.get("project_pk")
+        return Issue.objects.filter(project_id=project)
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Contributor.objects.all()
-    serializer_class = ContributorSerializer
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]

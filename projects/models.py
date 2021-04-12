@@ -3,13 +3,13 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 class User(AbstractUser):
-    user_id = models.IntegerField(blank=True, null=True)
+    pass
 
 class Project(models.Model):
-    project_id = models.IntegerField(blank=True, null=True)
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=128)
     type = models.CharField(max_length=128)
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return 'Project: ' + self.title
@@ -52,7 +52,6 @@ class Issue(models.Model):
         return 'Issue: ' + self.title
 
 class Comment(models.Model):
-    comment_id = models.IntegerField(blank=True, null=True)
     description = models.CharField(max_length=128)
     created_time = models.DateTimeField(auto_now_add=True)
 

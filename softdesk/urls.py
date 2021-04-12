@@ -1,9 +1,15 @@
 from django.urls import include, path
-from rest_framework import routers
+from rest_framework_nested import routers
+'''from rest_framework import routers'''
 from projects import views
 
 from django.contrib import admin
 from django.urls import path
+
+
+
+
+
 
 
 router = routers.DefaultRouter()
@@ -11,7 +17,11 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'project', views.ProjectViewSet)
 router.register(r'contributor', views.ContributorViewSet)
-router.register(r'issue', views.IssueViewSet)
+'''router.register(r'issue', views.IssueViewSet)'''
+
+project_router = routers.NestedSimpleRouter(router, r'project', lookup='project')
+project_router.register(r'issue', views.IssueViewSet, basename='project-issue')
+
 router.register(r'comment', views.CommentViewSet)
 
 
@@ -19,6 +29,8 @@ router.register(r'comment', views.CommentViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include(project_router.urls)),
+
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
 ]
