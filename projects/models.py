@@ -15,18 +15,16 @@ class Project(models.Model):
         return 'Project: ' + self.title
 
 class Contributor(models.Model):
-    AUTHOR = 'AU'
-    RESPONSIBLE = 'RE'
-    CREATOR = 'CR'
+    ALL = 'Al'
+    READ = 'Rd'
     PERMISSION_CHOICES = [
-        (AUTHOR, 'Author'),
-        (RESPONSIBLE, 'Responsible'),
-        (CREATOR, 'Creator'),
+        (ALL, 'All'),
+        (READ, 'Read'),
     ]
     permission = models.CharField(
         max_length=2,
         choices=PERMISSION_CHOICES,
-        default=AUTHOR,
+        default=ALL,
     )
     role = models.CharField(max_length=128)
 

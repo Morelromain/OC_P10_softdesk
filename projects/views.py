@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework import permissions
 from projects.serializers import UserSerializer, GroupSerializer, ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 from .models import Project, Contributor, User, Issue, Comment
@@ -34,7 +34,17 @@ class ProjectPermission(permissions.BasePermission):
         return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        return obj.author_user_id == request.user
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if obj.author_user_id == request.user:
+            return True
+        readonly = False
+        contributors = Contributor.objects.filter(project_id=obj.id)
+        for contributor in contributors:
+            if request.user == contributor.user_id :
+                readonly = request.method in permissions.SAFE_METHODS
+        return readonly
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
@@ -44,13 +54,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission]
 
-    def get_queryset(self):
-        """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
-        """
-        user = self.request.user 
-        return Project.objects.filter(author_user_id=user)
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
@@ -63,10 +66,26 @@ class ContributorViewSet(viewsets.ModelViewSet):
 class IssuePermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        return request.user.is_authenticated
+        if request.user.is_authenticated:
+            id_p = view.kwargs.get("project_pk")
+            try:
+                contrib = Contributor.objects.get(user_id=request.user, project_id=id_p)
+            except:
+                return False
+            if contrib.permission in ["Al", "Rd"]:
+                return True
 
     def has_object_permission(self, request, view, obj):
-        return obj.project_id.author_user_id == request.user
+        if request.user.is_authenticated:
+            id_p = view.kwargs.get("project_pk")
+            try:
+                contrib = Contributor.objects.get(user_id=request.user, project_id=id_p)
+            except:
+                return False
+            if contrib.permission == "Al":
+                return True
+            elif contrib.permission == "Rd":
+                return request.method in permissions.SAFE_METHODS
 
 class IssueViewSet(viewsets.ModelViewSet):
     """

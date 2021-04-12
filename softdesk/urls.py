@@ -7,30 +7,29 @@ from django.contrib import admin
 from django.urls import path
 
 
-
-
-
-
-
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'project', views.ProjectViewSet)
+
 router.register(r'contributor', views.ContributorViewSet)
 '''router.register(r'issue', views.IssueViewSet)'''
+
+router.register(r'project', views.ProjectViewSet)
 
 project_router = routers.NestedSimpleRouter(router, r'project', lookup='project')
 project_router.register(r'issue', views.IssueViewSet, basename='project-issue')
 
-router.register(r'comment', views.CommentViewSet)
+issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issue')
+issue_router.register(r'comment', views.CommentViewSet, basename='issue-comment')
 
+router.register(r'comment', views.CommentViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(project_router.urls)),
-
+    path('', include(issue_router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
 ]

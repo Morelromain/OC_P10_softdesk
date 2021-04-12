@@ -28,7 +28,7 @@ class IssueSerializer(serializers.HyperlinkedModelSerializer):
         model = Issue
         fields = ['id','title', 'desc', 'tag', 'priority', 'status', 'created_time', 'project_id', 'author_user_id', 'assignee_user_id']
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Issue
+        model = Comment
         fields = ['id', 'description', 'created_time', 'author_user_id', 'issue_id']
