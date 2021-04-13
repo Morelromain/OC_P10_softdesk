@@ -1,12 +1,13 @@
 from django.urls import include, path
 from rest_framework_nested import routers
 from projects import views
+from users import views as users_views
 from django.contrib import admin
 
 
 router = routers.DefaultRouter()
-# For login
-router.register(r'users', views.UserViewSet)
+# For nothing
+'''router.register(r'users', views.UserViewSet)'''
 # Project
 router.register(r'project', views.ProjectViewSet)
 # For Issue and Contributor

@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from .models import Project, Contributor, User, Issue, Comment
+from .models import Project, Contributor, Issue, Comment
 
 
 class ProjectPermission(permissions.BasePermission):
