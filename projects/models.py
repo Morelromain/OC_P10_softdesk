@@ -32,7 +32,7 @@ class Contributor(models.Model):
     project_id = models.ForeignKey(to=Project, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Contributor: ' + self.user_id + self.project_id
+        return 'Contributor: ' + (self.user_id.username) + self.project_id.title
 
 class Issue(models.Model):
     title = models.CharField(max_length=128)
@@ -57,4 +57,4 @@ class Comment(models.Model):
     issue_id = models.ForeignKey(to=Issue, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Comment: ' + self.comment_id
+        return 'Comment: ' + self.description
