@@ -1,29 +1,20 @@
-from django.contrib.auth.models import Group
-from rest_framework import viewsets, mixins
-from rest_framework import permissions
-from projects.serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
+from rest_framework import viewsets
 
+from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 from .models import Project, Contributor, Issue, Comment
 from .perm import ProjectPermission, ContributorPermission, IssuePermission, CommentPermission
 
-from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-
-# queryset à enlever quand def get_queryset?
-
-
-
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+    """API endpoint that allows Project to be viewed or edited."""
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission]
 
+    """def create(self, request):
+        request.data.update({"author_user_id": request.user.id})
+        print(super().create(request))
+        return super().create(request)"""
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """

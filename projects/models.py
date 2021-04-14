@@ -3,12 +3,11 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 
-
 class Project(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=128)
     type = models.CharField(max_length=128)
-    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return 'Project: ' + self.title
@@ -16,15 +15,8 @@ class Project(models.Model):
 class Contributor(models.Model):
     ALL = 'Al'
     READ = 'Rd'
-    PERMISSION_CHOICES = [
-        (ALL, 'All'),
-        (READ, 'Read'),
-    ]
-    permission = models.CharField(
-        max_length=2,
-        choices=PERMISSION_CHOICES,
-        default=ALL,
-    )
+    PERMISSION_CHOICES = [(ALL, 'All'), (READ, 'Read')]
+    permission = models.CharField(max_length=2, choices=PERMISSION_CHOICES, default=ALL)
     role = models.CharField(max_length=128)
 
     user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
