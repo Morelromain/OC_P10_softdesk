@@ -22,6 +22,13 @@ issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issu
 # Comment
 issue_router.register(r'comment', views.CommentViewSet, basename='issue-comment')
 
+
+
+# User
+router.register(r'signup', users_views.UserViewSet)
+
+
+
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(project_router.urls)),
