@@ -19,8 +19,8 @@ class Contributor(models.Model):
     permission = models.CharField(max_length=2, choices=PERMISSION_CHOICES, default=ALL)
     role = models.CharField(max_length=128)
 
-    user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    project_id = models.ForeignKey(to=Project, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    project_id = models.ForeignKey(to=Project, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return 'Contributor: ' + (self.user_id.username) + self.project_id.title
@@ -44,8 +44,8 @@ class Comment(models.Model):
     description = models.CharField(max_length=128)
     created_time = models.DateTimeField(auto_now_add=True)
 
-    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    issue_id = models.ForeignKey(to=Issue, on_delete=models.CASCADE)
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    issue_id = models.ForeignKey(to=Issue, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return 'Comment: ' + self.description
