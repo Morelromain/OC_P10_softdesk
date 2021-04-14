@@ -33,9 +33,9 @@ class Issue(models.Model):
     status = models.CharField(max_length=128)
     created_time = models.DateTimeField(auto_now_add=True)
 
-    project_id = models.ForeignKey(to=Project, on_delete=models.CASCADE)
-    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_id_author')
-    assignee_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_id_assignee')
+    project_id = models.ForeignKey(to=Project, on_delete=models.CASCADE, blank=True, null=True)
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_id_author', blank=True, null=True)
+    assignee_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_id_assignee', blank=True, null=True)
 
     def __str__(self):
         return 'Issue: ' + self.title

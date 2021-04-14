@@ -41,6 +41,10 @@ class IssueViewSet(viewsets.ModelViewSet):
         project = self.kwargs.get("project_pk")
         return Issue.objects.filter(project_id=project)
 
+    def perform_create(self, serializer, *args, **kwargs):
+        project_pk = self.kwargs['project_pk']
+        project = Project.objects.get(pk= project_pk)
+        serializer.save(project_id=project)
 
 class CommentViewSet(viewsets.ModelViewSet):
     """

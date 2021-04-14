@@ -12,6 +12,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         print(validated_data)
         info_p = Project.objects.create(**validated_data)
         info_p.author_user_id = self.context["request"].user
+        info_p.save()
         return info_p
 
     '''def update(self, instance, validated_data):
@@ -37,6 +38,16 @@ class IssueSerializer(serializers.ModelSerializer):
         fields = ['id','title', 'desc', 'tag', 'priority', 
                   'status', 'created_time', 'project_id', 
                   'author_user_id', 'assignee_user_id']
+        read_only_fields = ['author_user_id', 'project_id']
+
+    def create(self, validated_data):
+        info_i = Issue.objects.create(**validated_data)
+        info_i.author_user_id = self.context["request"].user
+        info_i.save()
+        return info_i
+
+
+
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
