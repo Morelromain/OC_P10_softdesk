@@ -28,8 +28,10 @@ class ContributorViewSet(viewsets.ModelViewSet):
         project = self.kwargs.get("project_pk")
         return Contributor.objects.filter(project_id=project)
 
-
-
+    def perform_create(self, serializer, *args, **kwargs):
+        project_pk = self.kwargs['project_pk']
+        project = Project.objects.get(pk= project_pk)
+        serializer.save(project_id=project)
 
 
 class IssueViewSet(viewsets.ModelViewSet):
@@ -60,3 +62,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self, *args, **kwargs):
         issue = self.kwargs.get("issue_pk")
         return Comment.objects.filter(issue_id=issue)
+
+    def perform_create(self, serializer, *args, **kwargs):
+        issue_pk = self.kwargs['issue_pk']
+        issue = Issue.objects.get(pk= issue_pk)
+        serializer.save(issue_id=issue)
