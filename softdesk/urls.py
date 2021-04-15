@@ -21,9 +21,6 @@ project_router.register(r'users', views.ContributorViewSet, basename='project-co
 issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issue')
 # Comment
 issue_router.register(r'comment', views.CommentViewSet, basename='issue-comment')
-
-
-
 # User
 router.register(r'signup', users_views.UserViewSet)
 
@@ -34,7 +31,7 @@ urlpatterns = [
     path('', include(project_router.urls)),
     path('', include(issue_router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),
 ]
