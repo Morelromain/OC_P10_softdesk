@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import permissions
 
 from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 from .models import Project, Contributor, Issue, Comment
@@ -9,12 +10,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """API endpoint that allows Project to be viewed or edited."""
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [ProjectPermission]
+    permission_classes = [ProjectPermission & permissions.IsAuthenticated]
 
-    """def create(self, request):
-        request.data.update({"author_user_id": request.user.id})
-        print(super().create(request))
-        return super().create(request)"""
+    def get_queryset(self, *args, **kwargs):
+        contributors = Contributor.objects.filter(user_id=self.request.user)
+        info_p = [contributor.project_id.id for contributor in contributors]
+        return Project.objects.filter(id__in = info_p)
+
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
@@ -22,7 +24,7 @@ class ContributorViewSet(viewsets.ModelViewSet):
     """
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
-    permission_classes = [ContributorPermission]
+    permission_classes = [ContributorPermission & permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         project = self.kwargs.get("project_pk")
@@ -40,7 +42,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     """
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
-    permission_classes = [IssuePermission]
+    permission_classes = [IssuePermission & permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         project = self.kwargs.get("project_pk")
@@ -57,7 +59,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [CommentPermission]
+    permission_classes = [CommentPermission & permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         issue = self.kwargs.get("issue_pk")

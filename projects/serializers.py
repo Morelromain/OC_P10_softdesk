@@ -9,10 +9,13 @@ class ProjectSerializer(serializers.ModelSerializer):
         read_only_fields = ['author_user_id']
 
     def create(self, validated_data):
-        print(validated_data)
         info_p = Project.objects.create(**validated_data)
         info_p.author_user_id = self.context["request"].user
         info_p.save()
+        Contributor.objects.create(user_id = self.context["request"].user,
+                                project_id = info_p,
+                                permission = "All",
+                                role = "Author")
         return info_p
 
 
@@ -27,6 +30,8 @@ class IssueSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         info_i = Issue.objects.create(**validated_data)
         info_i.author_user_id = self.context["request"].user
+        if info_i.assignee_user_id is None:
+            info_i.assignee_user_id = info_i.author_user_id
         info_i.save()
         return info_i
 
@@ -39,10 +44,10 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ['author_user_id', 'issue_id']
 
     def create(self, validated_data):
-        info_i = Comment.objects.create(**validated_data)
-        info_i.author_user_id = self.context["request"].user
-        info_i.save()
-        return info_i
+        info_c = Comment.objects.create(**validated_data)
+        info_c.author_user_id = self.context["request"].user
+        info_c.save()
+        return info_c
 
 
 class ContributorSerializer(serializers.ModelSerializer):
