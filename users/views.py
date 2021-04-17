@@ -7,7 +7,7 @@ from .models import User
 
 class UserPermission(permissions.BasePermission):
     """
-    Permission for all to manage permission.
+    Permission for all to manage user.
     """
     def has_permission(self, request, view):
         return request.method in ('POST')

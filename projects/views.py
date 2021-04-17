@@ -8,8 +8,8 @@ from .perm import ProjectPermission, ContributorPermission, IssuePermission, Com
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows you to view, create, modify or delete the project, 
-    depending on the permissions.
+    API endpoint that allows user to manage
+    his Project, depending on the permissions.
     """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -23,7 +23,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows user to manage
+    his Project's Contributor', depending on the permissions.
     """
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
@@ -41,7 +42,8 @@ class ContributorViewSet(viewsets.ModelViewSet):
 
 class IssueViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows user to manage
+    his Project's Issue, depending on the permissions.
     """
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
@@ -58,7 +60,8 @@ class IssueViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows user to manage
+    his Project's Comment, depending on the permissions.
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
