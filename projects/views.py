@@ -11,6 +11,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     API endpoint that allows user to manage
     his Project, depending on the permissions.
     """
+
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission & permissions.IsAuthenticated]
@@ -26,6 +27,7 @@ class ContributorViewSet(viewsets.ModelViewSet):
     API endpoint that allows user to manage
     his Project's Contributor', depending on the permissions.
     """
+
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
     permission_classes = [ContributorPermission & permissions.IsAuthenticated]
@@ -45,6 +47,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     API endpoint that allows user to manage
     his Project's Issue, depending on the permissions.
     """
+
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [IssuePermission & permissions.IsAuthenticated]
@@ -63,6 +66,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     API endpoint that allows user to manage
     his Project's Comment, depending on the permissions.
     """
+
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [CommentPermission & permissions.IsAuthenticated]

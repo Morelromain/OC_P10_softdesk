@@ -1,10 +1,13 @@
 from rest_framework import permissions
-from django.urls import resolve
 
 from .models import Project, Contributor, Issue, Comment
 
 
 class ProjectPermission(permissions.BasePermission):
+    """
+    Permission for all to view his project or create a new one.
+    Permission for author to modificate/delete project.
+    """
 
     def has_permission(self, request, view):
         return True
@@ -21,6 +24,11 @@ class ProjectPermission(permissions.BasePermission):
 
 
 class ContributorPermission(permissions.BasePermission):
+    """
+    Permission for all to view his project's contributors.
+    Permission for project's author to modificate/delete contributors 
+    to his projects or create a new one.
+    """
 
     def has_permission(self, request, view):
         id_p = view.kwargs.get("project_pk")
@@ -47,6 +55,10 @@ class ContributorPermission(permissions.BasePermission):
 
 
 class IssuePermission(permissions.BasePermission):
+    """
+    Permission for all to view his project's issues or create a new one.
+    Permission for issue's author to modificate/delete his issue.
+    """
 
     def has_permission(self, request, view):
         id_p = view.kwargs.get("project_pk")
@@ -73,6 +85,10 @@ class IssuePermission(permissions.BasePermission):
 
 
 class CommentPermission(permissions.BasePermission):
+    """
+    Permission for all to view his project's comments or create a new one.
+    Permission for comment's author to modificate/delete his issue.
+    """
 
     def has_permission(self, request, view):
         id_p = view.kwargs.get("project_pk")
