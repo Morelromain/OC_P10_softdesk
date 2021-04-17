@@ -6,13 +6,17 @@ from .models import User
 
 
 class UserPermission(permissions.BasePermission):
-
+    """
+    Permission for all to manage permission.
+    """
     def has_permission(self, request, view):
         return request.method in ('POST')
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """API endpoint that allows create user only."""
+    """
+    API endpoint that allows create user only.
+    """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [UserPermission]
