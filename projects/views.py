@@ -7,7 +7,10 @@ from .perm import ProjectPermission, ContributorPermission, IssuePermission, Com
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    """API endpoint that allows Project to be viewed or edited."""
+    """
+    API endpoint that allows you to view, create, modify or delete the project, 
+    depending on the permissions.
+    """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission & permissions.IsAuthenticated]

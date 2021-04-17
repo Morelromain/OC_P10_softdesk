@@ -12,13 +12,7 @@ class UserPermission(permissions.BasePermission):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-
+    """API endpoint that allows create user only."""
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [UserPermission | permissions.IsAdminUser]
-    """permission_classes = [permissions.IsAdminUser]"""
-    """permission_classes = [permissions.IsAuthenticated]"""
-
+    permission_classes = [UserPermission]
