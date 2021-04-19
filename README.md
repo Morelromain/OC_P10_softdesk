@@ -112,7 +112,7 @@ __App Utilisateur__ *(users)*
 
 Supprimer un `User` supprimera aussi ses `Project`, `Issue`, `Contributor` and `Comment`
 
-__App Critique__ *(projects)*  
+__App Projets__ *(projects)*  
 
 - `Tickets` pour la gestion de demande de Critiques
 - `Reviews` pour la gestion des Critiques
