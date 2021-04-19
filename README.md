@@ -60,7 +60,7 @@ Delete one `Project` will also remove its `Issue` `Comment`and `Contributor`
 ## API use with POSTMAN
 
 - POSTMAN link of the OC_P10 collection :
-`www.lienàmetre.com`
+`https://documenter.getpostman.com/view/14076898/TzJshK2v`
 
 Follow the OC_P10 collection documentation to access API endpoints
 
@@ -123,9 +123,6 @@ Supprimer un `Project` supprimera aussi ses `Issue` `Comment`and `Contributor`
 ## Utilisation de l'API avec POSTMAN
 
 -lien POSTMAN de la collection OC_P10 :
-`www.lienàmetre.com`
+`https://documenter.getpostman.com/view/14076898/TzJshK2v`
 
 Suivre la documentation de la collection OC_P10 pour accéder aux points de terminaison de l'API
-
-
-
