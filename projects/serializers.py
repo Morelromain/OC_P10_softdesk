@@ -14,10 +14,12 @@ class ProjectSerializer(serializers.ModelSerializer):
         info_p = Project.objects.create(**validated_data)
         info_p.author_user_id = self.context["request"].user
         info_p.save()
-        Contributor.objects.create(user_id = self.context["request"].user,
-                                project_id = info_p,
-                                permission = "All",
-                                role = "Author")
+        Contributor.objects.create(
+            user_id=self.context["request"].user,
+            project_id=info_p,
+            permission="Al",
+            role="Author"
+            )
         return info_p
 
 
@@ -25,8 +27,8 @@ class IssueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ['id','title', 'desc', 'tag', 'priority', 
-                  'status', 'created_time', 'project_id', 
+        fields = ['id', 'title', 'desc', 'tag', 'priority',
+                  'status', 'created_time', 'project_id',
                   'author_user_id', 'assignee_user_id']
         read_only_fields = ['author_user_id', 'project_id']
 
@@ -43,20 +45,20 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'description', 'created_time', 
+        fields = ['id', 'description', 'created_time',
                   'author_user_id', 'issue_id']
         read_only_fields = ['author_user_id', 'issue_id']
 
     def create(self, validated_data):
-        info_c = Comment.objects.create(**validated_data)
-        info_c.author_user_id = self.context["request"].user
-        info_c.save()
-        return info_c
+        info_i = Comment.objects.create(**validated_data)
+        info_i.author_user_id = self.context["request"].user
+        info_i.save()
+        return info_i
 
 
 class ContributorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contributor
-        fields = ['id','user_id', 'project_id', 'permission', 'role']
+        fields = ['id', 'user_id', 'project_id', 'permission', 'role']
         read_only_fields = ['project_id']

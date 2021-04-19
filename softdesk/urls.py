@@ -8,7 +8,6 @@ from projects import views
 from users import views as users_views
 
 router = routers.DefaultRouter()
-'''router.register(r'users', views.UserViewSet)'''
 # Project
 router.register(r'project', views.ProjectViewSet)
 # For Issue and Contributor

@@ -1,17 +1,18 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 
-from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 from .models import Project, Contributor, Issue, Comment
-from .perm import ProjectPermission, ContributorPermission, IssuePermission, CommentPermission
+from .serializers import (
+    ProjectSerializer, ContributorSerializer,
+    IssueSerializer, CommentSerializer
+)
+from .perm import (
+    ProjectPermission, ContributorPermission, IssueandComPermission
+)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows user to manage
-    his Project, depending on the permissions.
-    """
-
+    """API endpoint that allows Project to be viewed or edited."""
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission & permissions.IsAuthenticated]
@@ -19,15 +20,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_queryset(self, *args, **kwargs):
         contributors = Contributor.objects.filter(user_id=self.request.user)
         info_p = [contributor.project_id.id for contributor in contributors]
-        return Project.objects.filter(id__in = info_p)
+        return Project.objects.filter(id__in=info_p)
 
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows user to manage
-    his Project's Contributor', depending on the permissions.
+    API endpoint that allows groups to be viewed or edited.
     """
-
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
     permission_classes = [ContributorPermission & permissions.IsAuthenticated]
@@ -38,19 +37,17 @@ class ContributorViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer, *args, **kwargs):
         project_pk = self.kwargs['project_pk']
-        project = Project.objects.get(pk= project_pk)
+        project = Project.objects.get(pk=project_pk)
         serializer.save(project_id=project)
 
 
 class IssueViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows user to manage
-    his Project's Issue, depending on the permissions.
+    API endpoint that allows groups to be viewed or edited.
     """
-
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
-    permission_classes = [IssuePermission & permissions.IsAuthenticated]
+    permission_classes = [IssueandComPermission & permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         project = self.kwargs.get("project_pk")
@@ -58,18 +55,17 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer, *args, **kwargs):
         project_pk = self.kwargs['project_pk']
-        project = Project.objects.get(pk= project_pk)
+        project = Project.objects.get(pk=project_pk)
         serializer.save(project_id=project)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows user to manage
-    his Project's Comment, depending on the permissions.
+    API endpoint that allows groups to be viewed or edited.
     """
-
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [CommentPermission & permissions.IsAuthenticated]
+    permission_classes = [IssueandComPermission & permissions.IsAuthenticated]
 
     def get_queryset(self, *args, **kwargs):
         issue = self.kwargs.get("issue_pk")
@@ -77,5 +73,5 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer, *args, **kwargs):
         issue_pk = self.kwargs['issue_pk']
-        issue = Issue.objects.get(pk= issue_pk)
+        issue = Issue.objects.get(pk=issue_pk)
         serializer.save(issue_id=issue)
