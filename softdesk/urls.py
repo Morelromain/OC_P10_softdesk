@@ -7,23 +7,17 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from projects import views
 from users import views as users_views
 
+
 router = routers.DefaultRouter()
-# Project
-router.register(r'project', views.ProjectViewSet)
-# For Issue and Contributor
-project_router = routers.NestedSimpleRouter(router, r'project', lookup='project')
-# Issue
-project_router.register(r'issue', views.IssueViewSet, basename='project-issue')
-# Contribor (users)
-project_router.register(r'users', views.ContributorViewSet, basename='project-contributor')
-# For Comment
-issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issue')
-# Comment
-issue_router.register(r'comment', views.CommentViewSet, basename='issue-comment')
-# User
 router.register(r'signup', users_views.UserViewSet)
+router.register(r'project', views.ProjectViewSet)
 
+project_router = routers.NestedSimpleRouter(router, r'project', lookup='project')
+project_router.register(r'issue', views.IssueViewSet, basename='project-issue')
+project_router.register(r'users', views.ContributorViewSet, basename='project-contributor')
 
+issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issue')
+issue_router.register(r'comment', views.CommentViewSet, basename='issue-comment')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -32,5 +26,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('admin/', admin.site.urls),
+    path('adminq5s8/', admin.site.urls),
 ]
