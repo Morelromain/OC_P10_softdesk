@@ -12,7 +12,9 @@ from .perm import (
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    """API endpoint that allows Project to be viewed or edited."""
+    """
+    API endpoint that allows Projects to be viewed or edited.
+    """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [ProjectPermission & permissions.IsAuthenticated]
@@ -25,7 +27,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class ContributorViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows Contributors to be viewed or edited.
     """
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
@@ -43,7 +45,7 @@ class ContributorViewSet(viewsets.ModelViewSet):
 
 class IssueViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows Issues to be viewed or edited.
     """
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
@@ -61,7 +63,7 @@ class IssueViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows Comments to be viewed or edited.
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

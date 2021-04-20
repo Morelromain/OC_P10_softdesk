@@ -114,8 +114,10 @@ Supprimer un `User` supprimera aussi ses `Project`, `Issue`, `Contributor` and `
 
 __App Projets__ *(projects)*  
 
-- `Tickets` pour la gestion de demande de Critiques
-- `Reviews` pour la gestion des Critiques
+- `Project` pour la gestion des Projets
+- `Issue` pour la gestion des Problèmes
+- `Comment` pour la gestion des Commentaires
+- `Contributor` pour la gestion des Contributeurs
 
 Supprimer un `Issue` supprimera aussi ses `Comment`
 Supprimer un `Project` supprimera aussi ses `Issue` `Comment`and `Contributor`
