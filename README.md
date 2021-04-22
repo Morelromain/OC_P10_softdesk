@@ -28,7 +28,7 @@ Python Version : 3.8.3
 
 ## Use admin manager 
 
-To access admin database management : [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+To access admin database management : [http://127.0.0.1:8000/adminq5s8/](http://127.0.0.1:8000/adminq5s8/)
 
 #### Pre-existing administrator account
 
@@ -60,7 +60,7 @@ Delete one `Project` will also remove its `Issue` `Comment`and `Contributor`
 ## API use with POSTMAN
 
 - POSTMAN link of the OC_P10 collection :
-`https://documenter.getpostman.com/view/14076898/TzJshK2v`
+[https://documenter.getpostman.com/view/14076898/TzJshK2v](https://documenter.getpostman.com/view/14076898/TzJshK2v)
 
 Follow the OC_P10 collection documentation to access API endpoints
 
@@ -93,7 +93,7 @@ Version Python : 3.8.3
 
 ## Utilisation du gestionnaire admin
 
-Pour accéder à la gestion de base de donnée admin : [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+Pour accéder à la gestion de base de donnée admin : [http://127.0.0.1:8000/adminq5s8/](http://127.0.0.1:8000/adminq5s8/)
 
 #### Compte administrateur pré-existant
 
@@ -125,6 +125,7 @@ Supprimer un `Project` supprimera aussi ses `Issue` `Comment`and `Contributor`
 ## Utilisation de l'API avec POSTMAN
 
 -lien POSTMAN de la collection OC_P10 :
-`https://documenter.getpostman.com/view/14076898/TzJshK2v`
+
+[https://documenter.getpostman.com/view/14076898/TzJshK2v](https://documenter.getpostman.com/view/14076898/TzJshK2v)
 
 Suivre la documentation de la collection OC_P10 pour accéder aux points de terminaison de l'API
